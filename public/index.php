@@ -3,6 +3,11 @@
 require __DIR__.'/../bootstrap/start.php';
 
 require 'web.php';
-$web = new \Web();
 
+define('DEFAULT_CTL', 'index');
+define('DEFAULT_ACTION', 'index');
+define('DEFAULT_APP', 'home');
+define('CONTROLLER_DIR_NAME', 'controller');
+
+$web = new \Web();
 $web->run();

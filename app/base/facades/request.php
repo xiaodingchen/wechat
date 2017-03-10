@@ -27,8 +27,8 @@ class request extends  Facade{
                 
                 $path = $parsed_url['path'];
                 
-                //$_SERVER['SCRIPT_FILENAME'] = PUBLIC_DIR . '/' . $i;
-                $_SERVER['SCRIPT_FILENAME'] = ROOT_DIR . '/' . $i;
+                $_SERVER['SCRIPT_FILENAME'] = PUBLIC_DIR . '/' . $i;
+                // $_SERVER['SCRIPT_FILENAME'] = ROOT_DIR . '/' . $i;
                 
                 $_SERVER['SCRIPT_NAME'] = (str_contains($path, $i) ? str_replace('/' . $i, '', $path) : $path) . '/' . $i;
                 
