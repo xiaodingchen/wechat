@@ -3,6 +3,7 @@ namespace App\base\facades;
 
 use App\base\service\request as HttpRequest;
 use Skinny\Facades\Facade;
+use Skinny\Kernel;
 
 class request extends  Facade{
 
@@ -14,7 +15,7 @@ class request extends  Facade{
         {
             // 没有容器的临时策略
             
-            if (! \Kernel::runningInConsole())
+            if (! Kernel::runningInConsole())
             {
                 static::$__request = HttpRequest::createFromGlobals();
             }

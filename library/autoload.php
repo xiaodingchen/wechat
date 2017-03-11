@@ -1,4 +1,5 @@
 <?php
+namespace Skinny;
 
 class AutoLoad
 {
@@ -12,22 +13,10 @@ class AutoLoad
      */
     protected static $_aliases = [];
 
-    /**
-     * 已经注册了的类
-     *
-     * @var array
-     */
-    protected static $_registers = [];
-
-    /**
-     * 
-     */
-    protected static $_loadConflict = 'Smarty';
-
     public static function register()
     {
         if (! static::$_registed) {
-            static::$_registed = spl_autoload_register(['\AutoLoad','load']);
+            static::$_registed = spl_autoload_register([__CLASS__,'load']);
         }
     }
 
@@ -37,46 +26,6 @@ class AutoLoad
         if (array_key_exists($className, static::$_aliases)) {
             return class_alias(static::$_aliases[$className], $className);
         }
-        
-        $tmpArr = explode('\\', $className);
-        $defaultMap = self::defaultMap();
-        if (! array_key_exists($tmpArr[0], $defaultMap) && ! stripos($className, self::$_loadConflict) === FALSE) 
-        {
-            throw new \RuntimeException('Don\'t find file: ' . $className);
-        }
-        $tmpArr[0] = $defaultMap[$tmpArr[0]];
-        
-        $fileName = implode('/', $tmpArr);
-        $path = $fileName . '.php';
-        
-        if (! isset(static::$_registers[$path])) {
-            if (file_exists($path)) {
-                include ($path);
-                static::$_registers[$path] = true;
-                return;
-            }
-        } else {
-            return;
-        }
-
-        if (! stripos($className, self::$_loadConflict) === FALSE) 
-        {
-            throw new \RuntimeException('Don\'t find file: ' . $className);
-        }
-        
-        //throw new \RuntimeException('Don\'t find file: ' . $className);
-    }
-
-    /**
-     * Add the alias to ClassLoader
-     *
-     * @param string $class            
-     * @param string $alias            
-     * @return bool
-     */
-    public static function addAlias($class, $alias)
-    {
-        static::$_aliases[$class] = $alias;
     }
 
     /**
@@ -90,13 +39,5 @@ class AutoLoad
         if (is_array($aliases)) {
             static::$_aliases = array_merge(static::$_aliases, $aliases);
         }
-    }
-
-    protected static function defaultMap()
-    {
-        return [
-            'App' => APP_DIR,
-            'Skinny' => LIB_DIR
-        ];
     }
 }

@@ -25,6 +25,7 @@ class ComposerStaticInita016591b8c510ebcc3f611ab9708a93f
             'Symfony\\Component\\HttpFoundation\\' => 33,
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Bridge\\PsrHttpMessage\\' => 30,
+            'Skinny\\' => 7,
         ),
         'P' => 
         array (
@@ -55,6 +56,10 @@ class ComposerStaticInita016591b8c510ebcc3f611ab9708a93f
             'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
         ),
+        'A' => 
+        array (
+            'App\\' => 4,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -73,6 +78,10 @@ class ComposerStaticInita016591b8c510ebcc3f611ab9708a93f
         'Symfony\\Bridge\\PsrHttpMessage\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/psr-http-message-bridge',
+        ),
+        'Skinny\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/library',
         ),
         'Psr\\Log\\' => 
         array (
@@ -117,6 +126,10 @@ class ComposerStaticInita016591b8c510ebcc3f611ab9708a93f
         'Doctrine\\Common\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app',
         ),
     );
 

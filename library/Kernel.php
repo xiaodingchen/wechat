@@ -1,4 +1,6 @@
 <?php 
+namespace Skinny;
+
 use Skinny\Exceptions\HandleExceptions;
 class Kernel
 {
