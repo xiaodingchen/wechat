@@ -84,6 +84,8 @@ return [
     'primary' => 'id',
     'index' => [
         'material_id' => ['columns' => ['material_id'], 'prefix' => 'unique'],
+        'mediaid' => ['columns' => ['media_id']],
+        
     ],
     'comment' => '视频素材表',
 ];

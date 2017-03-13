@@ -22,7 +22,7 @@ class Wechat
     /**
      * 获取一个微信实例
      */
-    public static function getWechatApp()
+    public function getWechatApp()
     {
         if(! self::$_wechatApp instanceof Application)
         {
@@ -41,7 +41,7 @@ class Wechat
      */
     public function normal($appId)
     {
-        $app = self::getWechatApp();
+        $app = $this->getWechatApp();
         $app['config']->set('app_id', $appId);
         $app['config']->set('secret', $this->getSecret($appId));
         $app->access_token->setCacheKey($appId);
@@ -59,7 +59,7 @@ class Wechat
 
     public function authorizer(array $options = [])
     {
-        $app = self::getWechatApp();
+        $app = $this->getWechatApp();
         $app['config']->set('open_platform', $options);
 
         return $app;

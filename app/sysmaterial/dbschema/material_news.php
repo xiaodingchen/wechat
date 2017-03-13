@@ -116,7 +116,9 @@ return [
     'primary' => 'id',
     'index' => [
         'material_id' => ['columns' => ['material_id'],],
+        'mediaid' => ['columns' => ['media_id']],
+
     ],
-    'comment' => '图文素材',
+    'comment' => '图文素材表',
 ];
 

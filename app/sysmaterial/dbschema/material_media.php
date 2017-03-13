@@ -62,6 +62,8 @@ return [
     'primary' => 'id',
     'index' => [
         'material_id' => ['columns' => ['material_id'], 'prefix' => 'unique'],
+        'mediaid' => ['columns' => ['media_id']],
+        
     ],
     'comment' => '多媒体素材表(视频除外)',
 ];
