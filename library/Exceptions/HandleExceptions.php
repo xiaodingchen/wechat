@@ -8,7 +8,7 @@
  * */
 namespace Skinny\Exceptions;
 
-use Kernel as kernel;
+use Skinny\Kernel as kernel;
 use Exception;
 use ErrorException;
 use Skinny\Log\Logger as logger;

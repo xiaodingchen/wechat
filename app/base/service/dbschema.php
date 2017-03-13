@@ -14,6 +14,7 @@ class dbschema
     protected $typeDefines;
     protected static $_define = [];
     const DBSCHEMA_DIR = 'dbschema';
+    protected $_options = ['comment'];
 
     public function __construct()
     {
@@ -56,21 +57,31 @@ class dbschema
         // 如果存在原始表, 则通过原始表建立schema对象
         if ($db->getSchemaManager()->tablesExist($realTableName))
         {
-            $fromSchema = new \Doctrine\DBAL\Schema\Schema([$db->getSchemaManager()->listTableDetails($realTableName)], [], $db->getSchemaManager()->createSchemaConfig());
+            $table = $db->getSchemaManager()->listTableDetails($realTableName);
+            $fromSchema = new \Doctrine\DBAL\Schema\Schema([$table], [], $db->getSchemaManager()->createSchemaConfig());
         }
-        
         // 否则建立空schema
         else
         {
             $fromSchema = new \Doctrine\DBAL\Schema\Schema();
         }
-        
         // 安全模式, 删除drop columns的相关语句
         $comparator = new \Doctrine\DBAL\Schema\Comparator();
         $schemaDiff = $comparator->compare($fromSchema, $toSchema);
         $changeTable = current($schemaDiff->changedTables);
         $changeTable->removedColumns = [];
         $queries = $schemaDiff->toSaveSql($db->getDatabasePlatform());
+
+        $optionSql = [];
+        if($db->getSchemaManager()->tablesExist($realTableName))
+        {
+            $toOptions['comment'] = $toSchema->getTable($realTableName)->getOption('comment');
+            $options = $this->getOptions($db, $realTableName);
+            $fromOptions['comment'] = $options['TABLE_COMMENT'];
+            $optionSql = $this->changeOptions($realTableName, $fromOptions, $toOptions);
+        }
+
+        $queries = array_merge($queries, $optionSql);
         
         foreach($queries as $sql)
         {
@@ -79,6 +90,63 @@ class dbschema
             $db->exec($sql);
         }
         
+    }
+
+    public function changeOptions($tableName, $fromOptions, $toOptions)
+    {
+        $this->checkOptions($fromOptions);
+        $this->checkOptions($toOptions);
+        $keys = array_unique(array_merge(array_keys($fromOptions), array_keys($toOptions)));
+        $sql = [];
+        foreach ($keys as $k) 
+        {
+            if(! isset($fromOptions[$k]))
+            {
+                $fromOptions[$k] = '';
+            }
+
+            if(! isset($toOptions[$k]))
+            {
+                $toOptions[$k] = '';
+            }
+
+            if($fromOptions[$k] != $toOptions[$k])
+            {
+                $sql[] = "ALTER TABLE `{$tableName}` {$k}='{$toOptions[$k]}'";
+            }
+        }
+
+        return $sql;
+        
+    }
+
+    protected function checkOptions($options)
+    {
+        $oks = array_keys($options);
+        foreach ($oks as $key) 
+        {
+            if(! in_array($key, $this->_options))
+            {
+                throw new \RuntimeException(sprintf('option munst in [%s]', implode(',', $this->_options)));
+            }
+        }
+    }
+
+    public function getOptions($connection, $tableName)
+    {
+        $sql = "select * from information_schema.tables where table_name='{$tableName}'";
+        $result = $connection->fetchAll($sql);
+        $dbname = $connection->query('SELECT DATABASE()')->fetchColumn();
+
+        foreach ($result as $value) 
+        {
+            if($value['TABLE_SCHEMA'] == $dbname)
+            {
+                return $value;
+            }
+        }
+
+        throw new \InvalidArgumentException("Not found {$tableName} schema rows.");
     }
 
     /**
@@ -240,14 +308,6 @@ class dbschema
             return [$type, $options];
     
     }
-
-
-
-
-
-
-
-
 
 
     // 自定义数据类型

@@ -19,5 +19,5 @@ return array (
     ),
   ),
   'primary' => ['app', 'key'],
-  'comment' => 'setting存储',
+  'comment' => 'setting存储表',
 );

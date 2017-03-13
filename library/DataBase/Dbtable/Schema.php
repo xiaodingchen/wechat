@@ -96,9 +96,19 @@ class Schema
     public function getStatus($connection)
     {
         $sql = "select * from information_schema.tables where table_name='{$this->tableName}'";
-        $options = $connection->fetchAssoc($sql);
+        $result = $connection->fetchAll($sql);
+        $dbname = $connection->query('SELECT DATABASE()')->fetchColumn();
 
-        return $options;
+        foreach ($result as $value) 
+        {
+            if($value['TABLE_SCHEMA'] == $dbname)
+            {
+                return $value;
+            }
+        }
+
+        throw new \InvalidArgumentException("Not found {$this->tableName} schema rows.");
+        
     }
 
     public function getCached($md5)
