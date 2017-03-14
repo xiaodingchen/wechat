@@ -1,4 +1,5 @@
 {
+    "id":"base",
     "version":"1.0",
     "name":"基础支持模块",
     "description":"基础支持模块",
