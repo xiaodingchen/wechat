@@ -9,9 +9,9 @@ return [
             'comment' => '自增id',
         ],
 
-        'app_id' => [
+        'appid' => [
             'type' => 'string',
-            'length' => 50,
+            'length' => 32,
             'default' => '',
             'required' => true,
             'comment' => '公众号appid',
@@ -50,7 +50,7 @@ return [
 
     'primary' => 'id',
     'index' => [
-        'appid' => ['columns' => ['app_id']],
+        'appid' => ['columns' => ['appid']],
         'mediaid' => ['columns' => ['media_id']],
     ],
     'comment' => '素材管理概表',
