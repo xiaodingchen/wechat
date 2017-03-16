@@ -24,6 +24,7 @@ class index extends controller
 
     public function test()
     {
+        $this->setTitle('这是测试');
         return $this->render('wechat/view/test.html', ['title' => '哈哈哈哈', 'subject' => '啦啦啦啦']);
     }
 
