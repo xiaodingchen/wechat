@@ -14,6 +14,8 @@ define('CACHE_DIR', DATA_DIR.'/cache');
 define('LOG_DIR', DATA_DIR.'/logs');
 // 公共目录
 define('PUBLIC_DIR', ROOT_DIR.'/public'); 
+// 静态文件目录
+define('STATIC_DIR', '/static'); 
 // 脚本目录
 define('SCRIPT_DIR', ROOT_DIR.'/script');
 // 应用程序模块目录

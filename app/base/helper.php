@@ -1,5 +1,17 @@
 <?php 
 
+function baseUrl()
+{
+    $baseUrl = \request::getSchemeAndHttpHost() . \request::getBaseUrl();
+    if(strpos($baseUrl, 'index.php') !== FALSE)
+    {
+        $baseUrl = str_replace('index.php', '', $baseUrl);
+    }
+    $baseUrl = rtrim($baseUrl, '/');
+    
+    return $baseUrl;
+}
+
 function url($action, array $params = [])
 {
     $arr = explode('_', $action);

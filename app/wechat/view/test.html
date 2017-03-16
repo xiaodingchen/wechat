@@ -2,8 +2,10 @@
 <html>
 <head>
     <title><{$title}></title>
+    <{loadJS file='common/skinny.js'}>
 </head>
 <body>
+    <{registerFile type='js' file='dist/js/app.js'}>
     <h1><{$subject}></h1>
     <h1><{url action='home_index-admin_index' id=1}></h1>
 </body>

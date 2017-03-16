@@ -105,14 +105,12 @@ class view
      */
     public function registerPluginsDir($path = null)
     {
-        if(is_array($path))
+        if(is_array($path) && $path)
         {
-            $plugins_dir = config::get('tpl.plugins_dir');
-            array_unshift($path, $plugins_dir);
-            $this->plugins_dir = $path;
+            $this->plugins_dir = array_merge($this->plugins_dir, $path);
         }
 
-        if(is_string($path))
+        if(is_string($path) && $path)
         {
             $this->plugins_dir[] = $path;
         }
