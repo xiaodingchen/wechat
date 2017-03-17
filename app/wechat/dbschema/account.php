@@ -50,7 +50,7 @@ return [
             'comment' => '微信公众号的原始id'
         ],
 
-        'account' => [
+        'wechatcode' => [
             'type' => 'string',
             'length' => 50,
             'default' => '',
@@ -92,7 +92,7 @@ return [
             'type' => 'boolean',
             'default' => 2,
             'required' => false,
-            'comment' => '公众号状态：1为授权，2已授权'
+            'comment' => '公众号状态：1未授权，2已授权'
         ],
 
         'mode' => [

@@ -54,3 +54,28 @@ function random($length, $numeric = false)
 
     return $hash;
 }
+
+/**
+ * 判断是否是整数
+ * @param mixed $number
+ * 
+ * @return bool
+ * */
+function ris_int($number)
+{
+    if(!is_numeric($number)){
+        return false;
+    }
+    
+    if(is_int($number))
+    {
+        return true;
+    }
+    
+    if(floor($number) == $number)
+    {
+        return true;
+    }
+    
+    return false;
+}

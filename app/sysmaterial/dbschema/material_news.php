@@ -52,7 +52,7 @@ return [
             'type' => 'string',
             'length' => '300',
             'default' => '',
-            'required' => false,
+            'required' => true,
             'comment' => '  图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空'
         ],
 
@@ -60,7 +60,7 @@ return [
             'type' => 'integer',
             'unsigned' => true,
             'default' => 0,
-            'required' => false,
+            'required' => true,
             'comment' => '素材更新时间',
         ],
 
@@ -68,7 +68,7 @@ return [
             'type' => 'string',
             'length' => 300,
             'default' => '',
-            'required' => false,
+            'required' => true,
             'comment' => '微信端返回的url',
         ],
 
@@ -76,7 +76,7 @@ return [
             'type' => 'string',
             'length' => 300,
             'default' => '',
-            'required' => false,
+            'required' => true,
             'comment' => '图文消息的封面图片的地址',
         ],
 
@@ -109,6 +109,14 @@ return [
             'default' => '',
             'required' => true,
             'comment' => '缩略图的media_id',
+        ],
+
+        'thumb_local_url' => [
+            'type' => 'string',
+            'length' => 300,
+            'default' => '',
+            'required' => true,
+            'comment' => '封面的本地地址',
         ],
 
     ],

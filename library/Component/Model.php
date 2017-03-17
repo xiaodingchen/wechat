@@ -33,6 +33,14 @@ class Model
     }
 
     /**
+     * @param string
+     */
+    public function setTableName($tableName)
+    {
+        $this->tableName = $tableName;
+    }
+
+    /**
      * @return \Doctrine\DBAL\Connection
      */
     public function database()

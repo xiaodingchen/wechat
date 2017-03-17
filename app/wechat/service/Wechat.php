@@ -3,6 +3,7 @@ namespace App\wechat\service;
 
 use Skinny\Component\Config as config;
 use EasyWeChat\Foundation\Application;
+use App\wechat\service\WechatAccount;
 
 class Wechat
 {
@@ -29,10 +30,12 @@ class Wechat
      */
     public function wechatApp($account)
     {
-        if(! isset($account['mode']) || ! isset($account['appid']))
+        if(! isset($account['mode']) || ! isset($account['appid']) || !isset($account['status']))
         {
-            throw new \LogicException('缺少公众号关键信息，appid或接入模式');
+            throw new \LogicException('缺少公众号关键信息，appid或接入模式或授权状态');
         }
+
+        WechatAccount::checkStatus($account);
 
         if($account['mode'] == 'normal')
         {
@@ -71,13 +74,28 @@ class Wechat
      * 微信普通模式
      *
      * @param $appid string 微信公众号appid
+     * @param $secret string 和appid相关联的appsecret
+     * @param $encodingaeskey string EncodingAESKey，安全模式下请一定要填写！！！
      * @return \EasyWeChat\Foundation\Application
      */
-    public function normal($appId)
+    public function normal($appId, $secret = null, $encodingaeskey = null)
     {
         $app = $this->getWechatApp();
         $app['config']->set('app_id', $appId);
-        $app['config']->set('secret', $this->getSecret($appId));
+
+        if(! $secret || ! $encodingaeskey)
+        {
+            $row = $this->getWechatRow($appId);
+            if($row)
+            {
+                $secret = $row['secret'];
+                $encodingaeskey = $row['encodingaeskey'];
+            }
+            
+        }
+
+        $app['config']->set('secret', $secret);
+        $app['config']->set('aes_key', $encodingaeskey);
         $app->access_token->setCacheKey($appId);
 
         return $app;
@@ -99,9 +117,17 @@ class Wechat
         return $app;
     }
 
-    protected function getSecret($appId)
+    protected function getWechatRow($appId)
     {
-        return config::get('wechat.account.' . $appId);
+        $account = WechatAccount::getAccountByAppid($appid);
+        if(! $account)
+        {
+            throw new \LogicException("公众号不存在");
+        }
+
+        WechatAccount::checkStatus($account);
+
+        return $account;
     }
 
 

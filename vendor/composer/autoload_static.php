@@ -31,6 +31,7 @@ class ComposerStaticInita016591b8c510ebcc3f611ab9708a93f
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Patchwork\\' => 10,
         ),
         'O' => 
         array (
@@ -90,6 +91,10 @@ class ComposerStaticInita016591b8c510ebcc3f611ab9708a93f
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Patchwork\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/patchwork/utf8/src/Patchwork',
         ),
         'Overtrue\\Socialite\\' => 
         array (
@@ -162,12 +167,17 @@ class ComposerStaticInita016591b8c510ebcc3f611ab9708a93f
         ),
     );
 
+    public static $classMap = array (
+        'Normalizer' => __DIR__ . '/..' . '/patchwork/utf8/src/Normalizer.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInita016591b8c510ebcc3f611ab9708a93f::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInita016591b8c510ebcc3f611ab9708a93f::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInita016591b8c510ebcc3f611ab9708a93f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInita016591b8c510ebcc3f611ab9708a93f::$classMap;
 
         }, null, ClassLoader::class);
     }

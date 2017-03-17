@@ -6,7 +6,8 @@
                 "doctrine/dbal": "2.5.*",
                 "overtrue/wechat": "^3.2",
                 "swiftmailer/swiftmailer": "5.*",
-                "smarty/smarty": "~3.1"
+                "smarty/smarty": "~3.1",
+                "patchwork/utf8": "~1.2"
         },
         "autoload": {
                 "psr-4": {
