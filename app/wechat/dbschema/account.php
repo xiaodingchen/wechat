@@ -96,10 +96,10 @@ return [
         ],
 
         'mode' => [
-            'type' => 'boolean',
-            'default' => 2,
-            'required' => false,
-            'comment' => '授权模式：1开放平台授权，2普通模式授权'
+            'type' => [ 'normal' => '普通授权', 'authorizer' => '开放平台授权'],
+            'default' => 'normal',
+            'required' => true,
+            'comment' => '授权模式'
         ],
 
         'created' => [

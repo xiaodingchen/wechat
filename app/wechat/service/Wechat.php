@@ -29,12 +29,12 @@ class Wechat
      */
     public function wechatApp($account)
     {
-        if(! isset($account['type']) || ! isset($account['appid']))
+        if(! isset($account['mode']) || ! isset($account['appid']))
         {
             throw new \LogicException('缺少公众号关键信息，appid或接入模式');
         }
 
-        if($account['type'] == 1)
+        if($account['mode'] == 'normal')
         {
             $secret = isset($account['secret']) ? $account['secret'] : null;
             $encodingaeskey = isset($account['encodingaeskey']) ? $account['encodingaeskey'] : null;
@@ -43,7 +43,7 @@ class Wechat
         }
 
         // todo:微信开放授权模式，待完善
-        if($account == 3)
+        if($account == 'authorizer')
         {
             return $this->authorizer();
         }
