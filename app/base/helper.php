@@ -1,5 +1,10 @@
 <?php 
 
+function redirect($url)
+{
+    header('Location:' . $url);exit;
+}
+
 function baseUrl()
 {
     $baseUrl = \request::getSchemeAndHttpHost() . \request::getBaseUrl();

@@ -5,6 +5,7 @@ use App\base\service\view;
 use App\base\service\tool;
 use request;
 use response;
+use Skinny\Component\Config as config;
 
 class controller
 {
@@ -14,7 +15,9 @@ class controller
 
     public function __construct()
     {
+        $this->setExcetption();
         $this->checktoken();
+
     }
 
     public function fetch($tpl, array $data = [])
@@ -64,6 +67,17 @@ class controller
             }
 
             throw $e;
+        }
+    }
+
+    public function setExcetption()
+    {
+        $handler = config::get('error.handler', false);
+
+        if($handler)
+        {
+            //(new HandleExceptions())->setExceptionHandler(new $handler());
+            \Skinny\Kernel::setExceptionHandler(new $handler);
         }
     }
 }

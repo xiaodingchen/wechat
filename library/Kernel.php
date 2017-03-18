@@ -2,6 +2,8 @@
 namespace Skinny;
 
 use Skinny\Exceptions\HandleExceptions;
+use Skinny\Exceptions\ExceptionInterface;
+
 class Kernel
 {
     private static $__running_in_console = null;
@@ -25,5 +27,10 @@ class Kernel
         }
         
         static::$__exception_instance->bootstrap();
+    }
+
+    public static function setExceptionHandler(ExceptionInterface $handler)
+    {
+        static::$__exception_instance ->setExceptionHandler($handler);
     }
 }

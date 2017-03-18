@@ -2,6 +2,7 @@
 namespace App\base\service;
 
 use request;
+use App\base\service\session;
 
 class tool
 {
@@ -9,20 +10,21 @@ class tool
     public static function token()
     {
         $token = random(16);
-        $_SESSION[$token] = true;
-
+        
+        (new session())->set('token', $token);
         return $token;
     }
 
     public static function checkToken()
     {
         $token = request::input('token');
-
+        
         if($token)
         {
-            if($_SESSION[$token] === true)
+            $session = new session();
+            if($session->get('token', '') == $token)
             {
-                unset($_SESSION[$token]);
+                $session->remove('token');
             }
             else
             {

@@ -8,13 +8,18 @@
  * */
 namespace Skinny\Exceptions;
 
-use Skinny\Kernel as kernel;
 use Exception;
 use ErrorException;
+use Skinny\Kernel as kernel;
 use Skinny\Log\Logger as logger;
 use Skinny\Component\Config;
+use Skinny\Exceptions\ExceptionInterface as ExceptionHandler;
+use Skinny\Exceptions\FoundationHandler;
+use Symfony\Component\HttpFoundation\Request;
 
 class HandleExceptions {
+
+    private $exceptionHandler = null;
     /**
      * 定义全局错误处理
      * */
@@ -40,17 +45,14 @@ class HandleExceptions {
     
     public function handleException($e)
     {
-        logger::error($e);
+        $this->getExceptionHandler()->report($e);
 
         if(kernel::runningInConsole())
         {
-            throw $e;
+            return $this->getExceptionHandler()->renderForConsole($e);
         }
-        
-        if(Config::get('app.debug'))
-        {
-            throw $e;
-        }
+        // 区分http请求模式
+        return $this->getExceptionHandler()->render(new Request(), $e)->send();
         
     }
     
@@ -75,6 +77,23 @@ class HandleExceptions {
         $a = in_array($type, [E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE]);
         
         return $a;
+    }
+
+    
+
+    public function getExceptionHandler()
+    {
+       if(! $this->exceptionHandler instanceof ExceptionHandler)
+       {
+           $this->exceptionHandler = new FoundationHandler();
+       }
+       
+       return $this->exceptionHandler;
+    }
+    
+    public function setExceptionHandler(ExceptionHandler $handler)
+    {
+        $this->exceptionHandler = $handler;
     }
     
 

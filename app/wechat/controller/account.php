@@ -13,6 +13,6 @@ class account extends controller
 
     public function post()
     {
-        
+        var_dump(\request::input());
     }
 }
