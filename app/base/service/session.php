@@ -4,6 +4,7 @@ namespace App\base\service;
 use App\base\service\request;
 use Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
 use Closure;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class session
 {
@@ -19,16 +20,16 @@ class session
         return self::$_request;
     }
 
-    public static function setSessionStorage($storage)
+    public static function setSessionHandler(SessionInterface $storage)
     {
         self::getRequest()->setSession($storage);
     }
 
-    public function getSessionStorage()
+    public function getSessionHandler()
     {
         if(! self::getRequest()->hasSession())
         {
-            self::setSessionStorage(new SymfonySession());
+            self::setSessionHandler(new SymfonySession());
         }
 
         return self::getRequest()->getSession();
@@ -42,7 +43,7 @@ class session
         }
         else
         {
-            $session = self::getSessionStorage();
+            $session = self::getSessionHandler();
 
             return call_user_func_array([$session, $method], $parameters);
         }
@@ -65,7 +66,7 @@ class session
         } 
         else 
         {
-            $session = self::getSessionStorage();
+            $session = self::getSessionHandler();
 
             return call_user_func_array([$session, $method], $parameters);
         }
