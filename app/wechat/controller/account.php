@@ -2,6 +2,7 @@
 namespace App\wechat\controller;
 
 use App\base\service\controller;
+use App\base\service\tool;
 
 class account extends controller
 {

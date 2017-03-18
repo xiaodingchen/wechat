@@ -15,7 +15,7 @@ class controller
 
     public function __construct()
     {
-        $this->setExcetption();
+        tool::setExcepitonHandler();
         $this->checktoken();
 
     }
@@ -60,24 +60,13 @@ class controller
             tool::checkToken();
         } catch (\Exception $e) {
             $data['errmsg'] = $e->getMessage();
-            $data['errcode'] = -2;
+            $data['errcode'] = 500;
             if(request::ajax())
             {
                 return response::json($data)->send();
             }
 
             throw $e;
-        }
-    }
-
-    public function setExcetption()
-    {
-        $handler = config::get('error.handler', false);
-
-        if($handler)
-        {
-            //(new HandleExceptions())->setExceptionHandler(new $handler());
-            \Skinny\Kernel::setExceptionHandler(new $handler);
         }
     }
 }

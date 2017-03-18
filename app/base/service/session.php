@@ -1,9 +1,76 @@
 <?php 
 namespace App\base\service;
 
+use App\base\service\request;
 use Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
+use Closure;
 
-class session extends SymfonySession
+class session
 {
-    
+    private static $_request;
+
+    public static function getRequest()
+    {
+        if(! self::$_request)
+        {
+            self::$_request = new request();
+        }
+
+        return self::$_request;
+    }
+
+    public static function setSessionStorage($storage)
+    {
+        self::getRequest()->setSession($storage);
+    }
+
+    public function getSessionStorage()
+    {
+        if(! self::getRequest()->hasSession())
+        {
+            self::setSessionStorage(new SymfonySession());
+        }
+
+        return self::getRequest()->getSession();
+    }
+
+    public static function __callStatic($method, $parameters)
+    {
+        if ($method instanceof Closure)
+        {
+            return call_user_func_array(Closure::bind($method, null, get_called_class()), $parameters);
+        }
+        else
+        {
+            $session = self::getSessionStorage();
+
+            return call_user_func_array([$session, $method], $parameters);
+        }
+    }
+
+    /**
+     * Dynamically handle calls to the class.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     *
+     * @throws \BadMethodCallException
+     */
+    public function __call($method, $parameters)
+    {
+        if ($method instanceof Closure) 
+        {
+            return call_user_func_array($method->bindTo($this, get_class($this)), $parameters);
+        } 
+        else 
+        {
+            $session = self::getSessionStorage();
+
+            return call_user_func_array([$session, $method], $parameters);
+        }
+        
+    }
+
+
 }
